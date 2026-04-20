@@ -1,4 +1,5 @@
 import { addDays, format, isBefore, parse, startOfDay } from 'date-fns';
+import type { Doctor } from '@/types';
 
 export const ISO_DATE = 'yyyy-MM-dd';
 
@@ -43,4 +44,33 @@ export function formatTime(hhmm: string): string {
 /** Combined "Tue, May 6 · 2:30 PM". */
 export function formatDateTime(iso: string, hhmm: string): string {
   return `${formatDateLong(iso)} · ${formatTime(hhmm)}`;
+}
+
+export interface SlotRef {
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm
+}
+
+/**
+ * Returns the next `count` (date, time) openings from a doctor's weekly
+ * availability, starting from today and walking forward up to `horizonDays`.
+ */
+export function nextAvailableSlots(
+  doctor: Doctor,
+  count = 3,
+  horizonDays = 14,
+): SlotRef[] {
+  const out: SlotRef[] = [];
+  const start = startOfDay(new Date());
+  for (let offset = 0; offset < horizonDays && out.length < count; offset++) {
+    const day = addDays(start, offset);
+    const iso = format(day, ISO_DATE);
+    const slots = doctor.availability[day.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6];
+    if (!slots) continue;
+    for (const time of slots) {
+      out.push({ date: iso, time });
+      if (out.length >= count) break;
+    }
+  }
+  return out;
 }

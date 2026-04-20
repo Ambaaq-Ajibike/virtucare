@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-shell flex-col justify-center px-6 py-20 md:px-10">
+    <main className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-shell flex-col justify-center px-6 py-20 md:px-10">
       <p className="text-sm uppercase tracking-[0.18em] text-ink-muted">
         VirtuCare
       </p>
