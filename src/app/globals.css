@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --canvas: 37 33% 97%;       /* #FAF8F5 warm off-white */
+    --surface: 0 0% 100%;        /* cards, inputs */
+    --ink: 215 25% 17%;          /* #1F2A37 deep slate */
+    --ink-muted: 215 15% 42%;    /* secondary text */
+    --line: 30 10% 86%;          /* hairline borders */
+    --accent: 173 80% 26%;       /* #0F766E teal */
+    --accent-ink: 173 80% 18%;   /* hover / pressed */
+    --danger: 0 72% 45%;
+    --focus: 173 80% 36%;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  body {
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-serif), Georgia, serif;
+    letter-spacing: -0.015em;
+  }
+
+  /* Tame default native date input chrome so it feels like our buttons */
+  input[type='date']::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.55;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--focus));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
