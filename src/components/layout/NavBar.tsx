@@ -20,12 +20,12 @@ export function NavBar() {
             className="h-1.5 w-1.5 translate-y-[-2px] rounded-full bg-accent"
           />
         </Link>
-        <nav className="flex items-center gap-1 text-sm">
+        <nav className="flex items-center gap-0.5 text-sm sm:gap-1">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="rounded px-3 py-2 text-ink-muted transition-colors duration-150 ease-out hover:text-ink"
+              className="rounded px-2.5 py-2 text-ink-muted transition-colors duration-150 ease-out hover:text-ink sm:px-3"
             >
               {link.label}
             </Link>

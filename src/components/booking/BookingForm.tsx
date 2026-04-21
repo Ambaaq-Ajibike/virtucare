@@ -4,7 +4,9 @@ import { useId, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Textarea } from '@/components/ui/Textarea';
+import { useToast } from '@/components/ui/Toast';
 import { useAppointments } from '@/features/appointments/useAppointments';
+import { formatDateTime } from '@/lib/date';
 import {
   REASON_MAX,
   REASON_MIN,
@@ -25,6 +27,7 @@ const EMPTY: FormState = { date: '', time: '', reason: '' };
 
 export function BookingForm({ doctor }: { doctor: Doctor }) {
   const router = useRouter();
+  const toast = useToast();
   const { appointments, book, hydrated } = useAppointments();
 
   const [form, setForm] = useState<FormState>(EMPTY);
@@ -89,6 +92,9 @@ export function BookingForm({ doctor }: { doctor: Doctor }) {
       return;
     }
 
+    toast.success(
+      `Booked with ${doctor.name} · ${formatDateTime(created.date, created.time)}`,
+    );
     router.push('/appointments');
   }
 
@@ -165,10 +171,11 @@ export function BookingForm({ doctor }: { doctor: Doctor }) {
         </p>
       )}
 
-      <div className="flex items-center gap-3 pt-2">
+      <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center">
         <Button
           type="submit"
           disabled={!hydrated || submitting}
+          className="w-full sm:w-auto"
         >
           {submitting ? 'Booking…' : 'Confirm appointment'}
         </Button>

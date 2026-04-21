@@ -8,15 +8,20 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { Button } from '@/components/ui/Button';
 import { AppointmentList } from '@/components/appointments/AppointmentList';
 import { CancelDialog } from '@/components/appointments/CancelDialog';
+import { useToast } from '@/components/ui/Toast';
 import { useAppointments } from '@/features/appointments/useAppointments';
 import type { Appointment } from '@/types';
 
 export default function AppointmentsPage() {
   const { upcoming, past, cancel, hydrated } = useAppointments();
+  const toast = useToast();
   const [pendingCancel, setPendingCancel] = useState<Appointment | null>(null);
 
   function handleConfirmCancel() {
-    if (pendingCancel) cancel(pendingCancel.id);
+    if (pendingCancel) {
+      cancel(pendingCancel.id);
+      toast.success(`Cancelled with ${pendingCancel.doctorName}.`);
+    }
     setPendingCancel(null);
   }
 
