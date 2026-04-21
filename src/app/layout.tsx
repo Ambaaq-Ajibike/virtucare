@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Fraunces } from 'next/font/google';
 import { NavBar } from '@/components/layout/NavBar';
+import { AppointmentsProvider } from '@/features/appointments/AppointmentsContext';
 import './globals.css';
 
 const inter = Inter({
@@ -30,8 +31,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
       <body className="min-h-screen bg-canvas text-ink antialiased">
-        <NavBar />
-        {children}
+        <AppointmentsProvider>
+          <NavBar />
+          {children}
+        </AppointmentsProvider>
       </body>
     </html>
   );
