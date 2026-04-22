@@ -79,6 +79,14 @@ src/
 - **Design.** Warm off-white background, serif page titles paired with Inter for body, a single muted accent. 1px borders instead of heavy shadows, `rounded-md` instead of `rounded-3xl`. The goal was something that reads as a product rather than a template.
 
 ---
+## Challenges
+
+- **Hydration without mismatch.** `localStorage` only exists on the client, so the provider ships an empty list during SSR and hydrates in `useEffect`. Everything that depends on the list (the dashboard, the slot grid) renders a skeleton until a `hydrated` flag flips, which sidesteps the "server rendered empty, client rendered full list" mismatch warning.
+- **Timezone-safe date comparisons.** The first pass used `Date` objects and an appointment booked near midnight started showing up on the wrong day. Switching to `YYYY-MM-DD` string comparison (and formatting only at display time via `date-fns`) fixed it. `lib/date.ts` centralises the helpers so this doesn't drift.
+- **Keeping the UI from feeling generated.** The instinct is to reach for purple gradients, giant rounded cards, and a hero with an emoji. I stripped all of that out and leaned on restraint — serif headings, a single accent colour, real dividers. It's a small thing but it changes the overall read of the product.
+- **Slot generation without a backend.** Availability is a weekly template, not concrete slots, so the booking page has to compute the slot list for a chosen date and subtract anything already booked. Keeping that derivation in the component (rather than baking it into state) means the grid is always correct as appointments are added or cancelled.
+
+---
 
 ## What I'd do next
 
